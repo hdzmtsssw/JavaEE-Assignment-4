@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - StudentDAO",
+            "request": "launch",
+            "mainClass": "io.github.medioqrity.StudentDAO",
+            "projectName": "servlet"
+        }
+    ]
+}

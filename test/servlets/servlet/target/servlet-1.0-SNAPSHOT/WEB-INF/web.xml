@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+    <display-name>DemoApp</display-name>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+        </jsp-property-group>
+    </jsp-config>
+
+    <servlet>
+        <servlet-name>query</servlet-name>
+        <servlet-class>io.github.medioqrity.StudentQueryServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>logout</servlet-name>
+        <servlet-class>io.github.medioqrity.LogoutServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>update</servlet-name>
+        <servlet-class>io.github.medioqrity.StudentUpdateServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>delete</servlet-name>
+        <servlet-class>io.github.medioqrity.StudentDeleteServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>insert</servlet-name>
+        <servlet-class>io.github.medioqrity.StudentInsertServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>query</servlet-name>
+        <url-pattern>/query</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>insert</servlet-name>
+        <url-pattern>/insert</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>update</servlet-name>
+        <url-pattern>/update</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>delete</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
+
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <servlet-name>insert</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <servlet-name>update</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <servlet-name>delete</servlet-name>
+    </filter-mapping>
+    <!-- <servlet>
+        <servlet-name>ADD</servlet-name>
+        <servlet-class>io.github.medioqrity.AddServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ADD</servlet-name>
+        <url-pattern>/add</url-pattern>
+    </servlet-mapping> -->
+</web-app>
