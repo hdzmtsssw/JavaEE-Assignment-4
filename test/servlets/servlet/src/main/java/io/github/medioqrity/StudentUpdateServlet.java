@@ -40,6 +40,7 @@ public class StudentUpdateServlet extends HttpServlet {
         String phone = request.getParameter("p");
         String qq = request.getParameter("q");
         String mail = request.getParameter("m");
+
         try {
             studentDAO.update(studentID, new Student(name, phone, studentID, qq, mail));
             request.getSession().setAttribute("updated", true);
@@ -53,7 +54,7 @@ public class StudentUpdateServlet extends HttpServlet {
                     URLEncoder.encode(
                         (String) request.getSession().getAttribute("keyword"), "UTF-8"
                     ) +
-                    "&page=" + request.getParameter("page")
+                    "&page=" + (request.getParameter("page") == null ? 0 : Integer.parseInt(request.getParameter("page")))
                 );
             } catch (Exception e) {
                 e.printStackTrace();

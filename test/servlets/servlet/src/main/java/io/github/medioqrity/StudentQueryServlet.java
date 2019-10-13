@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import io.github.medioqrity.Paginator;
+import static io.github.medioqrity.Settings.*;
 
 // @WebServlet("/query")
 public class StudentQueryServlet extends HttpServlet {
@@ -50,6 +51,12 @@ public class StudentQueryServlet extends HttpServlet {
     private void addRow(int i, Student student, PrintWriter out, boolean admin, String keyword, int currentPage) {
         out.println("<tr>");
         if (admin) {
+            out.println("<form action='upload' method='post' enctype='multipart/form-data'>" + 
+                        "<input type='hidden' name='id' value='" + student.getId() + "'>" + 
+                        "<input type='hidden' name='page' value='" + currentPage + "'>" +
+                        "<td><img src='" + getServletContext().getContextPath() + IMAGE_DIRECTORY + student.getId() + ".jpg" + "'></td>" + 
+                        "<td><input type='file' name='file'><input type='submit'></td>" + 
+                        "</form>");
             out.println("<form action='update' method='post'>" +
                         "<input type='hidden' name='id' value='" + student.getId() + "'>" +
                         "<input type='hidden' name='page' value='" + currentPage + "'>");
@@ -79,16 +86,15 @@ public class StudentQueryServlet extends HttpServlet {
 
         out.println("<table>");
         out.println("<tr>");
+        out.println("<th>照片</th>");
+        if (admin) out.println("<th></th>");
         out.println("<th>结果编号</th>");
         out.println("<th>姓名</th>");
         out.println("<th>学号</th>");
         out.println("<th>电话</th>");
         out.println("<th>QQ</th>");
         out.println("<th>邮箱</th>");
-        if (admin) {
-            out.println("<th></th>");
-            out.println("<th></th>");
-        }
+        if (admin) out.println("<th></th>\n<th></th>");
         out.println("</tr>");
 
         int totalPageCount = resultCount / rowPerPage;

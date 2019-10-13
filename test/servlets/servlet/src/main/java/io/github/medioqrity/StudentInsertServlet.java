@@ -47,7 +47,7 @@ public class StudentInsertServlet extends HttpServlet {
                     URLEncoder.encode(
                         (String) request.getSession().getAttribute("keyword"), "UTF-8"
                     ) +
-                    "&page=" + request.getParameter("page")
+                    "&page=" + (request.getParameter("page") == null ? 0 : Integer.parseInt(request.getParameter("page")))
                 );
             } catch (Exception e) {
                 e.printStackTrace();
