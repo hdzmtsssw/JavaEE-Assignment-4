@@ -14,8 +14,13 @@
 
 
     <form action = 'query'>
-        Enter name or something else: <input type = 'text' name = 'keyword'>
-        <input type = 'submit' value = 'search'>
+        Enter name or something else: <input type = 'text' name = 'keyword' />
+        <input type = 'submit' value = 'search' />
+    </form>
+    <br>
+    <form action = 'ImageSearch' method='post' enctype='multipart/form-data'>
+        Or search by image: <input type = 'file' name = 'file' />
+        <input type = 'submit' value = 'search' />
     </form>
 
 </body>
