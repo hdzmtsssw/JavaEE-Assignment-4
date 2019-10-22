@@ -50,11 +50,11 @@ public class StudentQueryServlet extends HttpServlet {
 
     private void addRow(int i, Student student, PrintWriter out, boolean admin, String keyword, int currentPage) {
         out.println("<tr>");
+        out.println("<td><img src='" + getServletContext().getContextPath() + IMAGE_DIRECTORY + student.getId() + ".jpg" + "'></td>");
         if (admin) {
             out.println("<form action='upload' method='post' enctype='multipart/form-data'>" + 
                         "<input type='hidden' name='id' value='" + student.getId() + "'>" + 
                         "<input type='hidden' name='page' value='" + currentPage + "'>" +
-                        "<td><img src='" + getServletContext().getContextPath() + IMAGE_DIRECTORY + student.getId() + ".jpg" + "'></td>" + 
                         "<td><input type='file' name='file'><input type='submit'></td>" + 
                         "</form>");
             out.println("<form action='update' method='post'>" +

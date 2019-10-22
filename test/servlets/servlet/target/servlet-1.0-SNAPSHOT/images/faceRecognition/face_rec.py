@@ -5,7 +5,6 @@ from glob import glob
 from PIL import Image
 from numpy import fromfile, ndarray
 
-
 def image_to_data_name(image_name):
     return image_name[:-4] + '.dat'
 
@@ -20,24 +19,43 @@ THRESHOLD = 0.5
 MAX_RESULT = 10
 
 known_faces = {}
-for image_name in glob(WORKING_DIRECTORY + "*.jpg"):
-    data_name = image_to_data_name(image_name)
-    file_name = get_file_name(image_name)
-
-    if os.path.isfile(data_name):
-        known_faces[file_name] = fromfile(data_name)
-    else:
-        temp_encoding = face_encodings(load_image_file(image_name))[0]
-        temp_encoding.tofile(data_name)
-        known_faces[file_name] = temp_encoding
 
 while True:
     try:
         file_path = input()
     except EOFError:
         break
+
+    for image_name in glob(WORKING_DIRECTORY + "*.jpg"):
+        try:
+            data_name = image_to_data_name(image_name)
+            file_name = get_file_name(image_name)
+
+            if file_name == 'temp':
+                continue
+
+            if file_name in known_faces:
+                continue
+
+            if os.path.isfile(data_name):
+                known_faces[file_name] = fromfile(data_name)
+            else:
+                temp_encodings = face_encodings(load_image_file(image_name))
+                if not temp_encodings:
+                    continue
+                temp_encoding = temp_encodings[0]
+                temp_encoding.tofile(data_name)
+                known_faces[file_name] = temp_encoding
+        except:
+            continue
+
     image = load_image_file(file_path)
-    face_encoding = face_encodings(image)[0]
+    try:
+        face_encoding = face_encodings(image)[0]
+    except:
+        # no face in this image.
+        print(0)
+        continue
 
     result = [(name, face_distance([face], face_encoding)[0]) for name, face in known_faces.items()]
     result.sort(key = lambda x: x[1])
@@ -58,3 +76,4 @@ while True:
     for name, distance in result[:n]:
         print(name)
         print(distance)
+    sys.stdout.flush()

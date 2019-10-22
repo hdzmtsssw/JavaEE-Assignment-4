@@ -27,6 +27,8 @@ public class ImageSearchServlet extends HttpServlet {
 
     private static final long serialVersionUID = 5445154266585224261L;
     private Process python;
+    private BufferedReader reader;
+    private BufferedWriter writer;
 
     @Override
     public void init() {
@@ -37,6 +39,8 @@ public class ImageSearchServlet extends HttpServlet {
                 getServletContext().getRealPath(RECOGNIZOR_DIRECTORY + RECOGNIZOR_NAME) + " " +
                 getServletContext().getRealPath(IMAGE_DIRECTORY)
             );
+            reader = new BufferedReader(new InputStreamReader(python.getInputStream()));
+            writer = new BufferedWriter(new OutputStreamWriter(python.getOutputStream()));
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -54,9 +58,6 @@ public class ImageSearchServlet extends HttpServlet {
         out.write(buffer);
         out.close();
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(python.getInputStream()));
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(python.getOutputStream()));
-
         System.out.println("reader, writer: " + reader + " " + writer);
 
         writer.write(getServletContext().getRealPath(IMAGE_DIRECTORY + TEMP + ".jpg") + "\n");
@@ -66,20 +67,25 @@ public class ImageSearchServlet extends HttpServlet {
 
         List<String> ids = new LinkedList<>();
         List<Double> dists = new LinkedList<>();
+        List<String> imgs = new LinkedList<>();
 
         // System.out.println(reader.readLine());
         // response.sendRedirect("/index.jsp");
+
         String temp;
         while ((temp = reader.readLine()) == null);
         System.out.println(temp);
         int n = Integer.parseInt(temp);
         for (int i = 0; i < n; ++i) {
-            ids.add(reader.readLine());
+            String id = reader.readLine();
+            ids.add(id);
             dists.add(Double.parseDouble(reader.readLine()));
+            imgs.add("<img src='" + getServletContext().getContextPath() + IMAGE_DIRECTORY + id + ".jpg'>");
         }
 
         session.setAttribute("ids", ids);
         session.setAttribute("dists", dists);
+        session.setAttribute("imgs", imgs);
 
         response.sendRedirect(getServletContext().getContextPath() + "/ImageSearchResult.jsp");
     }
